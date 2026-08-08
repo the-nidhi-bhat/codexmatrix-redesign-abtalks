@@ -4,7 +4,7 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { toast } from "sonner"
-import { Loader2 } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
 import { Brand } from "@/components/brand"
 import { Button } from "@/components/ui/button"
@@ -17,6 +17,7 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
   const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
+  const [showPassword, setShowPassword] = React.useState(false)
 
   const isSignUp = mode === "sign-up"
 
@@ -101,16 +102,27 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
             <Label htmlFor="password" className="font-mono text-xs tracking-wider uppercase">
               Password
             </Label>
-            <Input
-              id="password"
-              type="password"
-              required
-              minLength={8}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="At least 8 characters"
-              autoComplete={isSignUp ? "new-password" : "current-password"}
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                required
+                minLength={8}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="At least 8 characters"
+                autoComplete={isSignUp ? "new-password" : "current-password"}
+                className="pr-11"
+              />
+              <button
+                type="button"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowPassword((visible) => !visible)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-2 text-muted-foreground hover:text-foreground"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
           </div>
 
           <Button type="submit" size="lg" className="mt-1 w-full" disabled={loading}>

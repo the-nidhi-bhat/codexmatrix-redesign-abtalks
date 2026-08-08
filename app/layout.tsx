@@ -8,6 +8,7 @@ import "@fontsource/space-grotesk/700.css";
 import "@fontsource/permanent-marker/400.css";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import { AppProvider } from "@/lib/store";
 
 export const metadata: Metadata = {
   title: "ABTalks — 60-Day Coding Challenge",
@@ -28,7 +29,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="grain antialiased">
         <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
-          <main className="min-h-dvh">{children}</main>
+          <AppProvider>
+            <main className="min-h-dvh">{children}</main>
+          </AppProvider>
         </ThemeProvider>
       </body>
     </html>
