@@ -8,9 +8,6 @@ import "@fontsource/space-grotesk/700.css";
 import "@fontsource/permanent-marker/400.css";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import { AppProvider } from "@/lib/store";
-import { BottomNav } from "@/components/layout/BottomNav";
-import { TopBar } from "@/components/layout/TopBar";
 
 export const metadata: Metadata = {
   title: "ABTalks — 60-Day Coding Challenge",
@@ -31,11 +28,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="grain antialiased">
         <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
-          <AppProvider>
-            <TopBar />
-            <main className="pb-24 pt-14 min-h-dvh">{children}</main>
-            <BottomNav />
-          </AppProvider>
+          <main className="min-h-dvh">{children}</main>
         </ThemeProvider>
       </body>
     </html>
