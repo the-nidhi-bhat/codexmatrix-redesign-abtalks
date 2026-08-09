@@ -9,7 +9,15 @@ import { revalidatePath } from "next/cache"
 
 async function getUserId() {
   const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user) throw new Error("Unauthorized")
+  if (!session?.user) {
+    // In development, return a demo user id so the dashboard can render
+    // without an authenticated session. In production, keep the strict
+    // behavior and throw an error.
+    if (process.env.NODE_ENV === "development") {
+      return "dev-user"
+    }
+    throw new Error("Unauthorized")
+  }
   return session.user.id
 }
 
