@@ -11,6 +11,8 @@ import { toast } from "sonner"
 export function ProofForm({ dayNumber }: { dayNumber: number }) {
   const [proofText, setProofText] = useState("")
   const [proofUrl, setProofUrl] = useState("")
+  const [githubUrl, setGithubUrl] = useState("")
+  const [linkedinUrl, setLinkedinUrl] = useState("")
   const [pending, setPending] = useState(false)
 
   const count = proofText.trim().length
@@ -21,10 +23,18 @@ export function ProofForm({ dayNumber }: { dayNumber: number }) {
     if (!valid || pending) return
     setPending(true)
     try {
-      await submitProof({ dayNumber, proofText, proofUrl: proofUrl || undefined })
+      await submitProof({
+        dayNumber,
+        proofText,
+        proofUrl: proofUrl || undefined,
+        githubUrl: githubUrl || undefined,
+        linkedinUrl: linkedinUrl || undefined,
+      })
       toast.success(`Day ${dayNumber} committed. Streak intact.`)
       setProofText("")
       setProofUrl("")
+      setGithubUrl("")
+      setLinkedinUrl("")
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not submit proof.")
     } finally {
@@ -65,6 +75,17 @@ export function ProofForm({ dayNumber }: { dayNumber: number }) {
           placeholder="https://strava.com/... or a screenshot URL"
           className="bg-input font-mono text-sm"
         />
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="github-url" className="font-mono text-xs uppercase tracking-widest text-muted-foreground">GitHub commit or repo</Label>
+          <Input id="github-url" type="url" value={githubUrl} onChange={(e) => setGithubUrl(e.target.value)} placeholder="https://github.com/..." className="bg-input font-mono text-sm" />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="linkedin-url" className="font-mono text-xs uppercase tracking-widest text-muted-foreground">LinkedIn post</Label>
+          <Input id="linkedin-url" type="url" value={linkedinUrl} onChange={(e) => setLinkedinUrl(e.target.value)} placeholder="https://linkedin.com/posts/..." className="bg-input font-mono text-sm" />
+        </div>
       </div>
 
       <Button

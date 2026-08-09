@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth"
 import { getChallenge } from "@/app/actions/challenge"
 import { DayExperience } from "@/components/day/day-experience"
 import { EmptyState } from "@/components/dashboard/EmptyState"
+import { StatsGrid } from "@/components/dashboard/stats-grid"
 import { TopBar } from "@/components/layout/TopBar"
 import { BottomNav } from "@/components/layout/BottomNav"
 
@@ -26,7 +27,12 @@ export default async function DashboardPage() {
           </div>
           <Link href="/" className="hidden rounded-full border border-border px-4 py-2 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground md:block">Home</Link>
         </div>
-        {challenge ? <DayExperience challenge={challenge} /> : <EmptyState />}
+        {challenge ? (
+          <div className="flex flex-col gap-8">
+            <StatsGrid challenge={challenge} />
+            <DayExperience challenge={challenge} />
+          </div>
+        ) : <EmptyState />}
       </main>
       <BottomNav />
     </>

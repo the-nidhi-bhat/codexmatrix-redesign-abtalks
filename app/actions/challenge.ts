@@ -236,9 +236,22 @@ export async function submitProof(input: {
   if (proofText.length < 3) {
     throw new Error("Proof must be at least 3 characters.")
   }
-  const proofUrl = input.proofUrl?.trim().slice(0, 500) || null
-  const githubUrl = input.githubUrl?.trim().slice(0, 500) || null
-  const linkedinUrl = input.linkedinUrl?.trim().slice(0, 500) || null
+  const normalizeUrl = (value: string | undefined, label: string) => {
+    const raw = value?.trim()
+    if (!raw) return null
+    if (raw.length > 500) throw new Error(`${label} URL is too long.`)
+    let parsed: URL
+    try {
+      parsed = new URL(raw)
+    } catch {
+      throw new Error(`${label} URL must be a valid https:// link.`)
+    }
+    if (parsed.protocol !== "https:") throw new Error(`${label} URL must use https://.`)
+    return parsed.toString()
+  }
+  const proofUrl = normalizeUrl(input.proofUrl, "Evidence")
+  const githubUrl = normalizeUrl(input.githubUrl, "GitHub")
+  const linkedinUrl = normalizeUrl(input.linkedinUrl, "LinkedIn")
 
   // Prevent duplicate submissions for the same day.
   const existing = await db
