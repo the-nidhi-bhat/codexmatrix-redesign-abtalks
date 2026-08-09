@@ -1,3 +1,5 @@
+"use client"
+
 import { motion } from "framer-motion"
 import { Flame, Trophy, CheckCircle2, Percent } from "lucide-react"
 import type { ChallengeState } from "@/app/actions/challenge"
