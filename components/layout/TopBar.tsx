@@ -2,11 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Info, Moon, Sun, ChevronDown } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 import { useApp, ScenarioKey } from "@/lib/store";
 import { HelpPanel } from "./HelpPanel";
 import { useShortcuts } from "@/hooks/useShortcuts";
