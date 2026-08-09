@@ -1,10 +1,17 @@
+import { motion } from "framer-motion"
 import { Flame, Trophy, CheckCircle2, Percent } from "lucide-react"
 import type { ChallengeState } from "@/app/actions/challenge"
 import { StatCard } from "@/components/dashboard/stat-card"
 
 export function StatsGrid({ challenge }: { challenge: ChallengeState }) {
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <motion.div
+      initial="hidden"
+      animate="show"
+      variants={{ hidden: {}, show: { transition: { staggerChildren: 0.07 } } }}
+      className="grid grid-cols-2 gap-3 md:grid-cols-4"
+    >
+      <motion.div variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } }} transition={{ duration: 0.3 }}>
       <StatCard
         icon={Flame}
         label="Current streak"
@@ -12,6 +19,7 @@ export function StatsGrid({ challenge }: { challenge: ChallengeState }) {
         suffix="days"
         accent
       />
+      </motion.div>
       <StatCard
         icon={Trophy}
         label="Longest streak"
@@ -30,6 +38,6 @@ export function StatsGrid({ challenge }: { challenge: ChallengeState }) {
         value={challenge.completionRate}
         suffix="%"
       />
-    </div>
+    </motion.div>
   )
 }

@@ -5,6 +5,7 @@ import Link from "next/link"
 import type { ChallengeState, DayCell } from "@/app/actions/challenge"
 import { ProofForm } from "@/components/day/proof-form"
 import { Button } from "@/components/ui/button"
+import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, Check, Lock, Flame, CircleDashed, X } from "lucide-react"
 
 function formatDate(iso: string) {
@@ -32,9 +33,19 @@ export function DayExperience({ challenge, initialDay }: { challenge: ChallengeS
   const meta = statusMeta[day.status]
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      className="grid gap-8 lg:grid-cols-[1fr_2fr]"
+    >
       {/* Navigator */}
-      <aside className="flex flex-col gap-4">
+      <motion.aside
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, delay: 0.08 }}
+        className="flex flex-col gap-4"
+      >
         <div className="flex items-center justify-between">
           <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Timeline</span>
           <span className="font-mono text-xs text-muted-foreground">
@@ -81,10 +92,15 @@ export function DayExperience({ challenge, initialDay }: { challenge: ChallengeS
             Longest run: <span className="font-mono text-foreground">{challenge.longestStreak}</span> days
           </p>
         </div>
-      </aside>
+      </motion.aside>
 
       {/* Focus panel */}
-      <section className="flex flex-col gap-6 rounded-xl border border-border bg-card p-6 md:p-8">
+      <motion.section
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, delay: 0.14 }}
+        className="flex flex-col gap-6 rounded-xl border border-border bg-card p-6 md:p-8"
+      >
         <header className="flex items-start justify-between gap-4">
           <div className="flex flex-col gap-1">
             <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
@@ -135,6 +151,14 @@ export function DayExperience({ challenge, initialDay }: { challenge: ChallengeS
         <div className="h-px w-full bg-border" />
 
         {/* Body by status */}
+        <AnimatePresence mode="wait">
+        <motion.div
+          key={`${day.dayNumber}-${day.status}`}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.22 }}
+        >
         {day.status === "today" && (
           <div className="flex flex-col gap-5">
             <p className="text-pretty leading-relaxed text-muted-foreground">
@@ -190,6 +214,8 @@ export function DayExperience({ challenge, initialDay }: { challenge: ChallengeS
             </p>
           </div>
         )}
+        </motion.div>
+        </AnimatePresence>
 
         <div className="mt-auto flex items-center justify-between border-t border-border pt-5">
           <p className="text-xs text-muted-foreground">Your commitment</p>
@@ -202,7 +228,7 @@ export function DayExperience({ challenge, initialDay }: { challenge: ChallengeS
             &ldquo;{challenge.commitment}&rdquo;
           </p>
         )}
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
   )
 }

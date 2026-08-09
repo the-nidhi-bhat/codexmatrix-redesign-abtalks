@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { submitProof } from "@/app/actions/challenge"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -9,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 
 export function ProofForm({ dayNumber }: { dayNumber: number }) {
+  const router = useRouter()
   const [proofText, setProofText] = useState("")
   const [proofUrl, setProofUrl] = useState("")
   const [githubUrl, setGithubUrl] = useState("")
@@ -35,6 +37,7 @@ export function ProofForm({ dayNumber }: { dayNumber: number }) {
       setProofUrl("")
       setGithubUrl("")
       setLinkedinUrl("")
+      router.refresh()
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not submit proof.")
     } finally {
