@@ -12,17 +12,14 @@ type ThemeContextValue = {
 
 const ThemeContext = React.createContext<ThemeContextValue | null>(null)
 
-const STORAGE_KEY = "sixty-theme"
+const STORAGE_KEY = "abtalks-theme"
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = React.useState<Theme>("dark")
-
-  // Load stored preference (default dark) on mount.
-  React.useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null
-    const initial: Theme = stored ?? "dark"
-    setThemeState(initial)
-  }, [])
+  const [theme, setThemeState] = React.useState<Theme>(() => {
+    if (typeof window === "undefined") return "dark"
+    const stored = window.localStorage.getItem(STORAGE_KEY)
+    return stored === "light" ? "light" : "dark"
+  })
 
   // Apply the theme class to <html>.
   React.useEffect(() => {

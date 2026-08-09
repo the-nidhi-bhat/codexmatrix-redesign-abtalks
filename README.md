@@ -2,6 +2,14 @@
 
 ABTalkS is a 60-day accountability app for students and developers. Pick a track, commit to a daily build, and submit proof that is persisted to Neon through authenticated server actions.
 
+## Route map
+
+```
+/
+/dashboard
+/day/12
+```
+
 ## Core routes
 
 - `/` — product landing page
@@ -23,7 +31,10 @@ Production requires the following server variables:
 
 - `DATABASE_URL`
 - `BETTER_AUTH_SECRET`
+- `BETTER_AUTH_URL` set to the deployed HTTPS origin, for example `https://abtalks-ten.vercel.app`
 - `NEON_AUTH_BASE_URL` when using the configured Neon auth callback setup
+
+Set each variable for Vercel Production, Preview, and Development as appropriate. The repository includes `.env.example` with placeholders only; never commit real values.
 
 Never expose these values through `NEXT_PUBLIC_*` variables or client components.
 

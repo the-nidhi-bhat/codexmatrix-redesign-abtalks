@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Sparkles, ArrowRight, Loader2 } from "lucide-react"
 import { createChallenge } from "@/app/actions/challenge"
@@ -13,6 +14,7 @@ const tracks = [
 ]
 
 export function EmptyState() {
+  const router = useRouter()
   const [track, setTrack] = useState("web-dev")
   const [pending, setPending] = useState(false)
   const [error, setError] = useState("")
@@ -22,7 +24,8 @@ export function EmptyState() {
     setError("")
     try {
       await createChallenge({ title: "ABTalkS 60-Day Challenge", commitment: "I will show up, build in public, and post proof every day.", track, durationDays: 60 })
-      window.location.href = "/dashboard"
+      router.push("/dashboard")
+      router.refresh()
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Could not start challenge")
       setPending(false)

@@ -6,6 +6,8 @@ import { DayExperience } from "@/components/day/day-experience"
 import { TopBar } from "@/components/layout/TopBar"
 import { BottomNav } from "@/components/layout/BottomNav"
 
+export const dynamic = "force-dynamic"
+
 export default async function DayPage({ params }: { params: Promise<{ day: string }> }) {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user) redirect("/sign-in")

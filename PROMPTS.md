@@ -19,6 +19,15 @@ This document records the user-facing prompts used to shape the ABTalkS rebuild.
 7. **Repository and deployment target**
    - Prepare the project as `codexmatrix-redesign-abtalks`, branded as ABTalkS, and target the existing Vercel project and the authenticated GitHub account.
 
+## Additional product brief preserved
+
+8. **ABTalkS challenge brief**
+   - Keep the original product idea: ABTalkS is a 60-day coding challenge for Indian college students. Students choose a track, build every day, and submit a GitHub commit plus LinkedIn post as public proof of work.
+   - Preserve the three required screens and route map: `/`, `/dashboard`, `/day/12`.
+   - Design mobile-first at 390px, support first-day, missed-day, empty-profile, loading, error, and success states, and include a thoughtful momentum feature such as streak freeze.
+9. **Engineering finalization checklist**
+   - Audit authentication, database persistence, all interactions, day navigation, help panel, mock/localStorage behavior, light/dark mode, mobile layouts, accessibility, security, environment variables, production build, Vercel deployment, and fresh signed-out/signed-in flows.
+
 ## Implementation notes
 
 - ABTalkS is the product name shown in the UI.
