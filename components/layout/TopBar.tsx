@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Info, Moon, Sun, ChevronDown } from "lucide-react";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme-provider";
 import { useApp, ScenarioKey } from "@/lib/store";
 import { HelpPanel } from "./HelpPanel";
 import { useShortcuts } from "@/hooks/useShortcuts";
@@ -18,7 +18,7 @@ const SCENARIO_LABELS: Record<ScenarioKey, string> = {
 };
 
 export function TopBar() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, hydrated } = useTheme();
   const { scenario, setScenario } = useApp();
   const [helpOpen, setHelpOpen] = useState(false);
   const [scenarioOpen, setScenarioOpen] = useState(false);
@@ -78,7 +78,11 @@ export function TopBar() {
             className="p-2 rounded-full border border-border-subtle bg-elevated text-text-secondary hover:text-text-primary transition-colors"
             aria-label="Toggle theme"
           >
-            {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
+            {hydrated ? (
+              theme === "dark" ? <Sun size={15} /> : <Moon size={15} />
+            ) : (
+              <span className="block size-[15px]" aria-hidden="true" />
+            )}
           </button>
 
           <button
