@@ -78,14 +78,21 @@ export type ChallengeState = {
 // ---------------------------------------------------------------------------
 export async function getChallenge(): Promise<ChallengeState | null> {
   const userId = await getUserId()
-
-  const rows = await db
-    .select()
-    .from(challenge)
-    .where(and(eq(challenge.userId, userId), eq(challenge.isActive, true)))
-    .limit(1)
-
-  const c = rows[0]
+  let c: any
+  try {
+    const rows = await db
+      .select()
+      .from(challenge)
+      .where(and(eq(challenge.userId, userId), eq(challenge.isActive, true)))
+      .limit(1)
+    c = rows[0]
+  } catch (err) {
+    // If the DB isn't configured locally (e.g., no DATABASE_URL), allow
+    // the app to render an empty dashboard during development instead of
+    // crashing the server.
+    console.error("getChallenge: DB query failed", err)
+    return null
+  }
   if (!c) return null
 
   const logs = await db
